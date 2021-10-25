@@ -25,14 +25,21 @@ namespace BSELogETL
         //Select Logfile
         private void button1_Click(object sender, EventArgs e)
         {
+            var filepath = string.Empty;
+            var content = string.Empty;
             var dialog = new OpenFileDialog();
             dialog.InitialDirectory = "C:\\";
             dialog.RestoreDirectory = true;
 
-            var file = dialog.OpenFile();
-            var reader = new StreamReader(file);
-            var content = reader.ReadToEnd();
-            Console.WriteLine(content);
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                filepath = dialog.FileName;
+                var fileStream = dialog.OpenFile();
+                var reader = new StreamReader(fileStream);
+                content = reader.ReadToEnd();
+            }
+
+            label1.Text = "Selected File: " + filepath;
         }
 
         //Show imported Logs
