@@ -46,6 +46,30 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="An1_Filter.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="An1_Filter.Designer.cs">
+          <DependentUpon>An1_Filter.cs</DependentUpon>
+        </Compile>
+        <Compile Include="An2_Filter.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="An2_Filter.Designer.cs">
+          <DependentUpon>An2_Filter.cs</DependentUpon>
+        </Compile>
+        <Compile Include="An3_Filter.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="An3_Filter.Designer.cs">
+          <DependentUpon>An3_Filter.cs</DependentUpon>
+        </Compile>
+        <Compile Include="An4_Filter.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="An4_Filter.Designer.cs">
+          <DependentUpon>An4_Filter.cs</DependentUpon>
+        </Compile>
         <Compile Include="Form1.cs">
             <SubType>Form</SubType>
         </Compile>
@@ -54,6 +78,18 @@
         </Compile>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <EmbeddedResource Include="An1_Filter.resx">
+          <DependentUpon>An1_Filter.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="An2_Filter.resx">
+          <DependentUpon>An2_Filter.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="An3_Filter.resx">
+          <DependentUpon>An3_Filter.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="An4_Filter.resx">
+          <DependentUpon>An4_Filter.cs</DependentUpon>
+        </EmbeddedResource>
         <EmbeddedResource Include="Form1.resx">
           <DependentUpon>Form1.cs</DependentUpon>
         </EmbeddedResource>
