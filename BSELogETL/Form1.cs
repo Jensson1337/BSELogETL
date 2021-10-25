@@ -44,25 +44,29 @@ namespace BSELogETL
         //Analyse 1
         private void button3_Click(object sender, EventArgs e)
         {
-            Application.Run(new An1_Filter());
+            var filterdialog = new An1_Filter();
+            filterdialog.Show();
         }
 
         //Analyse 2
         private void button4_Click(object sender, EventArgs e)
         {
-            Application.Run(new An2_Filter());
+            var filterdialog = new An2_Filter();
+            filterdialog.Show();
         }
 
         //Analyse 3
         private void button5_Click(object sender, EventArgs e)
         {
-            Application.Run(new An3_Filter());
+            var filterdialog = new An3_Filter();
+            filterdialog.Show();
         }
 
         //Analyse 4
         private void button6_Click(object sender, EventArgs e)
         {
-            Application.Run(new An4_Filter());
+            var filterdialog = new An4_Filter();
+            filterdialog.Show();
         }
     }
 }
