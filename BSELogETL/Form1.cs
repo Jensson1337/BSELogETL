@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BSELogETL
 {
     public partial class Form1 : Form
     {
+        private bool _fileSelected;
+
         public Form1()
         {
             InitializeComponent();
@@ -30,16 +25,52 @@ namespace BSELogETL
             var dialog = new OpenFileDialog();
             dialog.InitialDirectory = "C:\\";
             dialog.RestoreDirectory = true;
+            dialog.Multiselect = true;
+
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 filepath = dialog.FileName;
                 var fileStream = dialog.OpenFile();
                 var reader = new StreamReader(fileStream);
-                content = reader.ReadToEnd();
             }
 
-            label1.Text = "Selected File: " + filepath;
+            if (dialog.SafeFileName != "")
+            {
+                if (dialog.SafeFileNames.Length > 1)
+                {
+                    bool clear = true;
+                    foreach (var file in dialog.SafeFileNames)
+                    {
+                        if (!file.EndsWith(".log"))
+                        {
+                            clear = false;
+                        }
+                    }
+
+                    if (!clear)
+                    {
+                        MessageBox.Show("Please note that only logfiles will be transmitted to db", "Attention",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    label1.Text = "Selected: Multiple";
+                    _fileSelected = true;
+                }
+                else
+                {
+                    if (!dialog.SafeFileName.EndsWith(".log"))
+                    {
+                        MessageBox.Show("Please only select Logfiles", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        label1.Text = "Selected: " + filepath;
+                        _fileSelected = true;
+                    }
+                }
+            }
         }
 
         //Show imported Logs
@@ -51,29 +82,45 @@ namespace BSELogETL
         //Analyse 1
         private void button3_Click(object sender, EventArgs e)
         {
-            var filterdialog = new An1_Filter();
-            filterdialog.Show();
+            var filterDialog = new An1_Filter();
+            filterDialog.Show();
         }
 
         //Analyse 2
         private void button4_Click(object sender, EventArgs e)
         {
-            var filterdialog = new An2_Filter();
-            filterdialog.Show();
+            var filterDialog = new An2_Filter();
+            filterDialog.Show();
         }
 
         //Analyse 3
         private void button5_Click(object sender, EventArgs e)
         {
-            var filterdialog = new An3_Filter();
-            filterdialog.Show();
+            var filterDialog = new An3_Filter();
+            filterDialog.Show();
         }
 
         //Analyse 4
         private void button6_Click(object sender, EventArgs e)
         {
-            var filterdialog = new An4_Filter();
-            filterdialog.Show();
+            var filterDialog = new An4_Filter();
+            filterDialog.Show();
+        }
+
+        //Add to Database
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (!_fileSelected)
+            {
+                MessageBox.Show("Please select a file", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                //TODO Write into Database
+                MessageBox.Show("The file has been added to the database", "Success!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
