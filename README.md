@@ -1,2 +1,3 @@
 # BSELogETL
-Poop
+ToDo:
+Database anbinden
