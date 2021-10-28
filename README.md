@@ -1,0 +1,3 @@
+# BSELogETL
+ToDo:
+Database anbinden
