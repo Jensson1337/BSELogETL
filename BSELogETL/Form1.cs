@@ -7,9 +7,13 @@ namespace BSELogETL
     public partial class Form1 : Form
     {
         private bool _fileSelected;
+        private readonly ConnectionService _connectionService;
+        private string[] _files;
 
-        public Form1()
+        public Form1(
+            ConnectionService connectionService)
         {
+            _connectionService = connectionService;
             InitializeComponent();
         }
 
@@ -70,6 +74,8 @@ namespace BSELogETL
                         _fileSelected = true;
                     }
                 }
+
+                _files = dialog.SafeFileNames;
             }
         }
 
@@ -118,6 +124,7 @@ namespace BSELogETL
             else
             {
                 //TODO Write into Database
+                _connectionService.pushFilenames(_files);
                 MessageBox.Show("The file has been added to the database", "Success!",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
