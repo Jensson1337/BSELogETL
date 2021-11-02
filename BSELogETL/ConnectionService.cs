@@ -12,36 +12,66 @@ namespace BSELogETL
     {
         private SqliteConnection CreateConnection()
         {
-            var connection = new SqliteConnection(Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.Personal),
-                "logBase.sqlite"));
+            // using SqliteConnection connection1 = new SqliteConnection("Data Source=identifier.sqlite");
+            var connection = new SqliteConnection(
+                "Data Source=C:\\Users\\Gerrit.hauschildt.MITDOM\\DataGripProjects\\ETLLogDb\\ETLLogDb.sqlite");
 
             return connection;
         }
 
-        public void pushFilenames(string[] files)
+        public void PushFilenames(string[] files)
         {
             var con = CreateConnection();
             con.Open();
             var command = con.CreateCommand();
             foreach (var file in files)
             {
-                command.CommandText = "INSERT INTO filenames(filename) values(file)";
+                command.CommandText = $"INSERT INTO filenames(filename) values({file})";
                 command.ExecuteNonQuery();
             }
         }
 
-        public IEnumerable<string> QueryCommand<T>(string command)
+        public bool PushEntries(LogEntry[] entries)
         {
-            IEnumerable<string> mock = new[] {""};
+            bool result = false;
+            try
+            {
+                var con = CreateConnection();
+                con.Open();
+                var command = con.CreateCommand();
+                foreach (var entry in entries)
+                {
+                    command.CommandText =
+                        $"INSERT INTO log_entries(ip_adress, http_method, http_location, http_code, requested_at, package_size) values({entry.Ip_Adress}, {entry.Http_Method}, {entry.Http_Location}, {entry.Http_Code}, {entry.Requested_At}, {entry.Package_Size})";
+                    command.ExecuteNonQuery();
+                }
+
+                result = true;
+            }
+            catch
+            {
+                MessageBox.Show("the import action failed", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return result;
+        }
+
+        public List<string> GetPushedLogs()
+        {
             var con = CreateConnection();
             con.Open();
-            var com = con.CreateCommand();
-            com.CommandText = "Hier SQL Query einfügen";
-            var result = com.ExecuteScalar();
-            // return result;
+            var command = con.CreateCommand();
+            command.CommandText = "SELECT filename FROM filenames";
+            SqliteDataReader reader = command.ExecuteReader();
+            List<string> logList = new List<string> { };
+            while (reader.Read())
+            {
+                logList.Add(reader["filename"].ToString());
+            }
 
-            return mock;
+            reader.Close();
+            return logList;
         }
     }
 }

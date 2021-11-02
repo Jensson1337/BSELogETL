@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -6,7 +7,7 @@ namespace BSELogETL
 {
     public partial class Form1 : Form
     {
-        private bool _fileSelected;
+        //private bool _fileSelected;
         private readonly ConnectionService _connectionService;
         private string[] _files;
 
@@ -59,7 +60,7 @@ namespace BSELogETL
                     }
 
                     label1.Text = "Selected: Multiple";
-                    _fileSelected = true;
+                    //_fileSelected = true;
                 }
                 else
                 {
@@ -71,7 +72,7 @@ namespace BSELogETL
                     else
                     {
                         label1.Text = "Selected: " + filepath;
-                        _fileSelected = true;
+                        //_fileSelected = true;
                     }
                 }
 
@@ -82,7 +83,9 @@ namespace BSELogETL
         //Show imported Logs
         private void button2_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            List<string> Logs = _connectionService.GetPushedLogs();
+            var logDialog = new ImportedLogs(Logs);
+            logDialog.Show();
         }
 
         //Analyse 1
@@ -116,17 +119,23 @@ namespace BSELogETL
         //Add to Database
         private void button7_Click(object sender, EventArgs e)
         {
-            if (!_fileSelected)
+            if (_files == Array.Empty<string>())
             {
                 MessageBox.Show("Please select a file", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                //TODO Write into Database
-                _connectionService.pushFilenames(_files);
-                MessageBox.Show("The file has been added to the database", "Success!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                List<string> Logs = _connectionService.GetPushedLogs();
+                var entries = new LogEntry[] { };
+                var pushed = _connectionService.PushEntries(entries);
+                if (pushed)
+                {
+                    _connectionService.PushFilenames(_files);
+                    MessageBox.Show("The file has been added to the database", "Success!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
         }
     }
