@@ -127,7 +127,21 @@ namespace BSELogETL
             else
             {
                 List<string> Logs = _connectionService.GetPushedLogs();
+                List<LogEntry> EntryList = new List<LogEntry> { };
                 var entries = new LogEntry[] { };
+                foreach(var log in Logs)
+                {
+                    LogEntry file = new LogEntry
+                    {
+                        IpAddress = "",
+                        HttpMethod = "",
+                        HttpLocation = "",
+                        HttpCode = "",
+                        PackageSize = "",
+                        RequestedAt = ""
+                    };
+                    EntryList.Add(file);
+                }
                 var pushed = _connectionService.PushEntries(entries);
                 if (pushed)
                 {

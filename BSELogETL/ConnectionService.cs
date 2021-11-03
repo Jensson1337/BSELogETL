@@ -42,7 +42,7 @@ namespace BSELogETL
                 foreach (var entry in entries)
                 {
                     command.CommandText =
-                        $"INSERT INTO log_entries(ip_adress, http_method, http_location, http_code, requested_at, package_size) values({entry.Ip_Adress}, {entry.Http_Method}, {entry.Http_Location}, {entry.Http_Code}, {entry.Requested_At}, {entry.Package_Size})";
+                        $"INSERT INTO log_entries(ip_adress, http_method, http_location, http_code, requested_at, package_size) values({entry.IpAddress}, {entry.HttpMethod}, {entry.HttpLocation}, {entry.HttpCode}, {entry.RequestedAt}, {entry.PackageSize})";
                     command.ExecuteNonQuery();
                 }
 
