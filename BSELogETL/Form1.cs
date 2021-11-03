@@ -91,29 +91,61 @@ namespace BSELogETL
         //Analyse 1
         private void button3_Click(object sender, EventArgs e)
         {
-            var filterDialog = new An1_Filter();
-            filterDialog.Show();
+            if ((Application.OpenForms["An1_Filter"] as An1_Filter) == null)
+            {
+                var filterDialog = new An1_Filter();
+                filterDialog.Show();
+            }
+            else
+            {
+                MessageBox.Show("The dialog is already open", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         //Analyse 2
         private void button4_Click(object sender, EventArgs e)
         {
-            var filterDialog = new An2_Filter();
-            filterDialog.Show();
+            if ((Application.OpenForms["An2_Filter"] as An2_Filter) == null)
+            {
+                var filterDialog = new An2_Filter();
+                filterDialog.Show();
+            }
+            else
+            {
+                MessageBox.Show("The dialog is already open", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         //Analyse 3
         private void button5_Click(object sender, EventArgs e)
         {
-            var filterDialog = new An3_Filter();
-            filterDialog.Show();
+            if ((Application.OpenForms["An3_Filter"] as An3_Filter) == null)
+            {
+                var filterDialog = new An3_Filter();
+                filterDialog.Show();
+            }
+            else
+            {
+                MessageBox.Show("The dialog is already open", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         //Analyse 4
         private void button6_Click(object sender, EventArgs e)
         {
-            var filterDialog = new An4_Filter();
-            filterDialog.Show();
+            if ((Application.OpenForms["An4_Filter"] as An4_Filter) == null)
+            {
+                var filterDialog = new An4_Filter();
+                filterDialog.Show();
+            }
+            else
+            {
+                MessageBox.Show("The dialog is already open", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         //Add to Database
@@ -129,7 +161,7 @@ namespace BSELogETL
                 List<string> Logs = _connectionService.GetPushedLogs();
                 List<LogEntry> EntryList = new List<LogEntry> { };
                 var entries = new LogEntry[] { };
-                foreach(var log in Logs)
+                foreach (var log in Logs)
                 {
                     LogEntry file = new LogEntry
                     {
@@ -142,6 +174,7 @@ namespace BSELogETL
                     };
                     EntryList.Add(file);
                 }
+
                 var pushed = _connectionService.PushEntries(entries);
                 if (pushed)
                 {
@@ -149,7 +182,6 @@ namespace BSELogETL
                     MessageBox.Show("The file has been added to the database", "Success!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
             }
         }
     }
