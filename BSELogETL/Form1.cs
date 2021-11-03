@@ -161,9 +161,10 @@ namespace BSELogETL
                 List<string> Logs = _connectionService.GetPushedLogs();
                 List<LogEntry> EntryList = new List<LogEntry> { };
                 var entries = new LogEntry[] { };
-                foreach (var log in Logs)
+                bool existing = false;
+                foreach (var file in _files)
                 {
-                    LogEntry file = new LogEntry
+                    LogEntry newEntry = new LogEntry
                     {
                         IpAddress = "",
                         HttpMethod = "",
@@ -172,16 +173,27 @@ namespace BSELogETL
                         PackageSize = "",
                         RequestedAt = ""
                     };
-                    EntryList.Add(file);
+                    foreach (var log in Logs)
+                    {
+                        if (file == log)
+                        {
+                            existing = true;
+                        }
+                    }
+
+                    if (!existing)
+                    {
+                        EntryList.Add(newEntry);
+                    }
+
+                    existing = false;
                 }
 
                 var pushed = _connectionService.PushEntries(entries);
-                if (pushed)
-                {
-                    _connectionService.PushFilenames(_files);
-                    MessageBox.Show("The file has been added to the database", "Success!",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                if (!pushed) return;
+                _connectionService.PushFilenames(_files);
+                MessageBox.Show("The file has been added to the database", "Success!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
