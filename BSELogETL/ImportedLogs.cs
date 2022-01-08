@@ -6,14 +6,10 @@ namespace BSELogETL
 {
     public partial class ImportedLogs : Form
     {
-        private readonly ConnectionService _connectionService;
-
         public ImportedLogs(ConnectionService connectionService)
         {
-            _connectionService = connectionService;
             InitializeComponent();
-
-            foreach (var log in _connectionService.GetPushedLogs())
+            foreach (var log in connectionService.GetPushedLogs())
             {
                 listBox1.Items.Add(log);
             }
