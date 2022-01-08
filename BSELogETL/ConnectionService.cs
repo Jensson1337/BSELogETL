@@ -13,10 +13,11 @@ namespace BSELogETL
         private SqliteConnection CreateConnection()
         {
             // using SqliteConnection connection1 = new SqliteConnection("Data Source=identifier.sqlite");
-            var connection = new SqliteConnection(
-                "Data Source=C:\\Users\\Gerrit.hauschildt.MITDOM\\DataGripProjects\\ETLLogDb\\ETLLogDb.sqlite");
+            var dataSource = Path.GetFullPath(Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory, "..\\..\\database\\identifier.sqlite")
+            );
 
-            return connection;
+            return new SqliteConnection("Data Source=" + dataSource);
         }
 
         public void PushFilenames(string[] files)
@@ -26,7 +27,7 @@ namespace BSELogETL
             var command = con.CreateCommand();
             foreach (var file in files)
             {
-                command.CommandText = $"INSERT INTO filenames(filename) values({file})";
+                command.CommandText = $"INSERT INTO filenames(filename) values ({file})";
                 command.ExecuteNonQuery();
             }
         }
