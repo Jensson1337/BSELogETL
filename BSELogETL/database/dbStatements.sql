@@ -6,7 +6,7 @@ CREATE TABLE log_entries
     http_location VARCHAR(255) NOT NULL,
     http_code     INTEGER      NOT NULL,
     requested_at  DATETIME     NOT NULL,
-    package_size  INTEGER      NOT NULL
+    package_size  INTEGER
 );
 
 CREATE TABLE filenames

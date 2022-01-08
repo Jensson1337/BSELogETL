@@ -38,21 +38,53 @@ namespace BSELogETL
             {
                 var con = CreateConnection();
                 con.Open();
+                
+                var transaction = con.BeginTransaction();
+                
                 var command = con.CreateCommand();
+                command.CommandText = @"INSERT INTO log_entries(ip_address, http_method, http_location, http_code, requested_at, package_size) VALUES ($ip_address, $http_method, $http_location, $http_code, $requested_at, $package_size);";
+
+                var ipAddressParameter = command.CreateParameter();
+                ipAddressParameter.ParameterName = "$ip_address";
+                command.Parameters.Add(ipAddressParameter);
+                
+                var httpMethodParameter = command.CreateParameter();
+                httpMethodParameter.ParameterName = "$http_method";
+                command.Parameters.Add(httpMethodParameter);
+                
+                var httpLocationParameter = command.CreateParameter();
+                httpLocationParameter.ParameterName = "$http_location";
+                command.Parameters.Add(httpLocationParameter);
+                
+                var httpCodeParameter = command.CreateParameter();
+                httpCodeParameter.ParameterName = "$http_code";
+                command.Parameters.Add(httpCodeParameter);
+                
+                var requestedAtParameter = command.CreateParameter();
+                requestedAtParameter.ParameterName = "$requested_at";
+                command.Parameters.Add(requestedAtParameter);
+                
+                var packageSizeParameter = command.CreateParameter();
+                packageSizeParameter.ParameterName = "$package_size";
+                command.Parameters.Add(packageSizeParameter);
                 
                 foreach (var entry in entries)
                 {
-                    command.CommandText = "INSERT INTO log_entries(ip_address, http_method, http_location, http_code, requested_at, package_size) VALUES ";
-                    command.CommandText += $"(\"{entry.IpAddress}\", \"{entry.HttpMethod}\", \"{entry.HttpLocation}\", \"{entry.HttpCode}\", \"{entry.RequestedAt}\", \"{entry.PackageSize}\")";
-                    command.CommandText += ";";
+                    ipAddressParameter.Value = entry.IpAddress;
+                    httpMethodParameter.Value = entry.HttpMethod;
+                    httpLocationParameter.Value = entry.HttpLocation;
+                    httpCodeParameter.Value = entry.HttpCode;
+                    requestedAtParameter.Value = entry.RequestedAt;
+                    packageSizeParameter.Value = entry.PackageSize is null ? DBNull.Value : entry.PackageSize;
                     command.ExecuteNonQuery();
                 }
-
+                
+                transaction.Commit();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                MessageBox.Show("The import action failed.", "Error",
+                MessageBox.Show(e.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

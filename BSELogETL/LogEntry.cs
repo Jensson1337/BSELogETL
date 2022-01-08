@@ -23,6 +23,11 @@
             var splitString = value.Split(' ');
             HttpCode = splitString[splitString.Length - 2];
             PackageSize = splitString[splitString.Length - 1];
+
+            if (PackageSize == "-")
+            {
+                PackageSize = null;
+            }
         }
 
         public LogEntry()
