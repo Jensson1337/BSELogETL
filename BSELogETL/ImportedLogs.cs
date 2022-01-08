@@ -6,17 +6,14 @@ namespace BSELogETL
 {
     public partial class ImportedLogs : Form
     {
-        private readonly List<string> _logs;
-        public ImportedLogs(List<string> logs)
-        {
-            _logs = logs;
-            InitializeComponent();
-        }
+        private readonly ConnectionService _connectionService;
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        public ImportedLogs(ConnectionService connectionService)
         {
-            listBox1.MultiColumn = true;
-            foreach (var log in _logs)
+            _connectionService = connectionService;
+            InitializeComponent();
+
+            foreach (var log in _connectionService.GetPushedLogs())
             {
                 listBox1.Items.Add(log);
             }

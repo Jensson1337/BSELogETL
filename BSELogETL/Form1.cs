@@ -66,11 +66,11 @@ namespace BSELogETL
             // set label
             if (files.Count == 1)
             {
-                label1.Text = "Selected: " + Helper.GetBaseName(files[0]);
+                label1.Text = "Imported: " + Helper.GetBaseName(files[0]);
             }
             else
             {
-                label1.Text = "Selected: Multiple";
+                label1.Text = "Imported: Multiple";
             }
 
             ImportFiles(files);
@@ -79,8 +79,7 @@ namespace BSELogETL
         //Show imported Logs
         private void button2_Click(object sender, EventArgs e)
         {
-            List<string> Logs = _connectionService.GetPushedLogs();
-            var logDialog = new ImportedLogs(Logs);
+            var logDialog = new ImportedLogs(_connectionService);
             logDialog.Show();
         }
 
