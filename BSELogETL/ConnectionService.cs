@@ -12,12 +12,7 @@ namespace BSELogETL
     {
         private SqliteConnection CreateConnection()
         {
-            // using SqliteConnection connection1 = new SqliteConnection("Data Source=identifier.sqlite");
-            var dataSource = Path.GetFullPath(Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory, "..\\..\\database\\identifier.sqlite")
-            );
-
-            return new SqliteConnection("Data Source=" + dataSource);
+            return new SqliteConnection("Data Source=identifier.sqlite");
         }
 
         public void PushFilenames(string[] files)
@@ -27,35 +22,41 @@ namespace BSELogETL
             var command = con.CreateCommand();
             foreach (var file in files)
             {
-                command.CommandText = $"INSERT INTO filenames(filename) values ({file})";
+                command.CommandText = $"INSERT INTO filenames(filename) VALUES (\"{file}\")";
                 command.ExecuteNonQuery();
             }
         }
 
         public bool PushEntries(LogEntry[] entries)
         {
-            bool result = false;
+            if (entries.Length == 0)
+            {
+                return true;
+            }
+            
             try
             {
                 var con = CreateConnection();
                 con.Open();
                 var command = con.CreateCommand();
+                
                 foreach (var entry in entries)
                 {
-                    command.CommandText =
-                        $"INSERT INTO log_entries(ip_adress, http_method, http_location, http_code, requested_at, package_size) values({entry.IpAddress}, {entry.HttpMethod}, {entry.HttpLocation}, {entry.HttpCode}, {entry.RequestedAt}, {entry.PackageSize})";
+                    command.CommandText = "INSERT INTO log_entries(ip_address, http_method, http_location, http_code, requested_at, package_size) VALUES ";
+                    command.CommandText += $"(\"{entry.IpAddress}\", \"{entry.HttpMethod}\", \"{entry.HttpLocation}\", \"{entry.HttpCode}\", \"{entry.RequestedAt}\", \"{entry.PackageSize}\")";
+                    command.CommandText += ";";
                     command.ExecuteNonQuery();
                 }
 
-                result = true;
+                return true;
             }
             catch
             {
-                MessageBox.Show("the import action failed", "Error",
+                MessageBox.Show("The import action failed.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            return result;
+            return false;
         }
 
         public List<string> GetPushedLogs()

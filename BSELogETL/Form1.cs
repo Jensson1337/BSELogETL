@@ -9,7 +9,6 @@ namespace BSELogETL
     {
         //private bool _fileSelected;
         private readonly ConnectionService _connectionService;
-        private string[] _files;
 
         public Form1(
             ConnectionService connectionService)
@@ -25,59 +24,56 @@ namespace BSELogETL
         //Select Logfile
         private void button1_Click(object sender, EventArgs e)
         {
-            var filepath = string.Empty;
-            var content = string.Empty;
+            // select files
             var dialog = new OpenFileDialog();
             dialog.InitialDirectory = "C:\\";
             dialog.RestoreDirectory = true;
             dialog.Multiselect = true;
+            dialog.ShowDialog();
 
-
-            if (dialog.ShowDialog() == DialogResult.OK)
+            // check if files selected
+            if (dialog.FileNames.Length == 0)
             {
-                filepath = dialog.FileName;
-                var fileStream = dialog.OpenFile();
-                var reader = new StreamReader(fileStream);
+                MessageBox.Show("Please select at least one file.");
+                return;
             }
 
-            if (dialog.SafeFileName != "")
+            // remove non log files
+            bool hasNonLogfile = false;
+            var files = new List<string>();
+            foreach (var fileName in dialog.FileNames)
             {
-                if (dialog.SafeFileNames.Length > 1)
+                if (!fileName.EndsWith(".log"))
                 {
-                    bool clear = true;
-                    foreach (var file in dialog.SafeFileNames)
-                    {
-                        if (!file.EndsWith(".log"))
-                        {
-                            clear = false;
-                        }
-                    }
-
-                    if (!clear)
-                    {
-                        MessageBox.Show("Please note that only logfiles will be transmitted to db", "Attention",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-
-                    label1.Text = "Selected: Multiple";
-                    //_fileSelected = true;
-                }
-                else
-                {
-                    if (!dialog.SafeFileName.EndsWith(".log"))
-                    {
-                        MessageBox.Show("Please only select Logfiles", "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        label1.Text = "Selected: " + filepath;
-                        //_fileSelected = true;
-                    }
+                    hasNonLogfile = true;
+                    continue;
                 }
 
-                _files = dialog.SafeFileNames;
+                files.Add(fileName);
             }
+
+            // message if non log files are selected
+            if (hasNonLogfile && files.Count > 0)
+            {
+                MessageBox.Show("Please note that only logfiles will be imported.");
+            }
+            else if (hasNonLogfile && files.Count == 0)
+            {
+                MessageBox.Show("The selected files do not contain any log files.");
+                return;
+            }
+
+            // set label
+            if (files.Count == 1)
+            {
+                label1.Text = "Selected: " + Helper.GetBaseName(files[0]);
+            }
+            else
+            {
+                label1.Text = "Selected: Multiple";
+            }
+
+            ImportFiles(files);
         }
 
         //Show imported Logs
@@ -149,52 +145,34 @@ namespace BSELogETL
         }
 
         //Add to Database
-        private void button7_Click(object sender, EventArgs e)
+        private void ImportFiles(List<string> files)
         {
-            if (_files == Array.Empty<string>())
+            var logs = _connectionService.GetPushedLogs();
+            var importedFileNames = new List<string>();
+            var importedEntries = new List<LogEntry>();
+            
+            foreach (var file in files)
             {
-                MessageBox.Show("Please select a file", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                List<string> Logs = _connectionService.GetPushedLogs();
-                List<LogEntry> EntryList = new List<LogEntry> { };
-                var entries = new LogEntry[] { };
-                bool existing = false;
-                foreach (var file in _files)
+                string name = Helper.GetBaseName(file);
+                if (logs.Contains(name))
                 {
-                    LogEntry newEntry = new LogEntry
-                    {
-                        IpAddress = "",
-                        HttpMethod = "",
-                        HttpLocation = "",
-                        HttpCode = "",
-                        PackageSize = "",
-                        RequestedAt = ""
-                    };
-                    foreach (var log in Logs)
-                    {
-                        if (file == log)
-                        {
-                            existing = true;
-                        }
-                    }
-
-                    if (!existing)
-                    {
-                        EntryList.Add(newEntry);
-                    }
-
-                    existing = false;
+                    MessageBox.Show("The file " + name + " has already been imported.");
+                    continue;
                 }
+                
+                importedFileNames.Add(name);
 
-                var pushed = _connectionService.PushEntries(entries);
-                if (!pushed) return;
-                _connectionService.PushFilenames(_files);
-                MessageBox.Show("The file has been added to the database", "Success!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                foreach (var line in File.ReadLines(file))
+                {
+                    importedEntries.Add(new LogEntry(line));
+                }
             }
+
+            _connectionService.PushFilenames(importedFileNames.ToArray());
+            _connectionService.PushEntries(importedEntries.ToArray());
+
+            MessageBox.Show("The action has been completed.", "",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
