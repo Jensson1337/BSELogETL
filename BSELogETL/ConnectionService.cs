@@ -162,5 +162,30 @@ namespace BSELogETL
             reader.Close();
             return list;
         }
+        
+        public List<Dictionary<string, string>> QueryToIpAddressCount(string query)
+        {
+            var con = CreateConnection();
+            con.Open();
+            var command = con.CreateCommand();
+            command.CommandText = query;
+
+            var reader = command.ExecuteReader();
+            var list = new List<Dictionary<string, string>>();
+
+            while (reader.Read())
+            {
+                var dict = new Dictionary<string, string>
+                {
+                    { "IpAddress", reader["ip_address"].ToString() },
+                    { "IpAddressCount", reader["ip_count"].ToString() }
+                };
+
+                list.Add(dict);
+            }
+
+            reader.Close();
+            return list;
+        }
     }
 }

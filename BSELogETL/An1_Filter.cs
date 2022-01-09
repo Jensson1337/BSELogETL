@@ -38,7 +38,7 @@ namespace BSELogETL
             }
 
             listBox1.Items.Add(value);
-            textBox1.Text = String.Empty;
+            textBox1.Text = string.Empty;
         }
 
         private void button2_Click(object sender, EventArgs e)
