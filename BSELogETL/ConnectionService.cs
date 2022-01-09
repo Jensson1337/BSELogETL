@@ -107,5 +107,34 @@ namespace BSELogETL
             reader.Close();
             return logList;
         }
+
+        public List<LogEntry> QueryToEntries(string query)
+        {
+            var con = CreateConnection();
+            con.Open();
+            var command = con.CreateCommand();
+            command.CommandText = query;
+            
+            var reader = command.ExecuteReader();
+            var list = new List<LogEntry>();
+            
+            while (reader.Read())
+            {
+                var entry = new LogEntry
+                {
+                    IpAddress = reader["ip_address"].ToString(),
+                    HttpMethod = reader["http_method"].ToString(),
+                    HttpCode = reader["http_code"].ToString(),
+                    HttpLocation = reader["http_location"].ToString(),
+                    RequestedAt = reader["requested_at"].ToString(),
+                    PackageSize = reader["package_size"].ToString()
+                };
+
+                list.Add(entry);
+            }
+
+            reader.Close();
+            return list;
+        }
     }
 }
