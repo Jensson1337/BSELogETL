@@ -43,29 +43,32 @@ namespace BSELogETL
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(75, 403);
+            this.button2.Location = new System.Drawing.Point(12, 375);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(130, 46);
+            this.button2.Size = new System.Drawing.Size(272, 46);
             this.button2.TabIndex = 17;
             this.button2.Text = "Analyze";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(191, 123);
+            this.button1.Location = new System.Drawing.Point(191, 143);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(57, 20);
             this.button1.TabIndex = 16;
             this.button1.Text = "Add";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(25, 147);
+            this.label1.Location = new System.Drawing.Point(25, 176);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 15;
@@ -74,14 +77,14 @@ namespace BSELogETL
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(25, 163);
+            this.listBox1.Location = new System.Drawing.Point(25, 192);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(223, 95);
             this.listBox1.TabIndex = 14;
             // 
             // checkBox2
             // 
-            this.checkBox2.Location = new System.Drawing.Point(25, 94);
+            this.checkBox2.Location = new System.Drawing.Point(25, 114);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(104, 24);
             this.checkBox2.TabIndex = 13;
@@ -99,21 +102,21 @@ namespace BSELogETL
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(25, 43);
+            this.dateTimePicker1.Location = new System.Drawing.Point(25, 42);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
             this.dateTimePicker1.TabIndex = 11;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(25, 124);
+            this.textBox1.Location = new System.Drawing.Point(25, 144);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(160, 20);
             this.textBox1.TabIndex = 10;
             // 
             // checkBox3
             // 
-            this.checkBox3.Location = new System.Drawing.Point(25, 283);
+            this.checkBox3.Location = new System.Drawing.Point(25, 305);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(114, 24);
             this.checkBox3.TabIndex = 18;
@@ -122,36 +125,44 @@ namespace BSELogETL
             // 
             // checkBox4
             // 
-            this.checkBox4.Location = new System.Drawing.Point(25, 343);
+            this.checkBox4.Location = new System.Drawing.Point(25, 335);
             this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(104, 24);
+            this.checkBox4.Size = new System.Drawing.Size(57, 24);
             this.checkBox4.TabIndex = 19;
-            this.checkBox4.Text = "Post";
+            this.checkBox4.Text = "Get";
             this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // checkBox5
             // 
-            this.checkBox5.Location = new System.Drawing.Point(25, 313);
+            this.checkBox5.Location = new System.Drawing.Point(157, 335);
             this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(104, 24);
+            this.checkBox5.Size = new System.Drawing.Size(68, 24);
             this.checkBox5.TabIndex = 20;
-            this.checkBox5.Text = "Get";
+            this.checkBox5.Text = "Head";
             this.checkBox5.UseVisualStyleBackColor = true;
             // 
             // checkBox6
             // 
-            this.checkBox6.Location = new System.Drawing.Point(25, 373);
+            this.checkBox6.Location = new System.Drawing.Point(88, 335);
             this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(104, 24);
+            this.checkBox6.Size = new System.Drawing.Size(56, 24);
             this.checkBox6.TabIndex = 21;
-            this.checkBox6.Text = "Head";
+            this.checkBox6.Text = "Post";
             this.checkBox6.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Location = new System.Drawing.Point(25, 68);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker2.TabIndex = 22;
             // 
             // An3_Filter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(296, 475);
+            this.ClientSize = new System.Drawing.Size(296, 433);
+            this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.checkBox6);
             this.Controls.Add(this.checkBox5);
             this.Controls.Add(this.checkBox4);
@@ -169,6 +180,8 @@ namespace BSELogETL
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
 
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;

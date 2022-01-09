@@ -104,7 +104,7 @@ namespace BSELogETL
             // 
             // checkBox3
             // 
-            this.checkBox3.Location = new System.Drawing.Point(33, 323);
+            this.checkBox3.Location = new System.Drawing.Point(33, 297);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(140, 24);
             this.checkBox3.TabIndex = 7;
@@ -114,16 +114,16 @@ namespace BSELogETL
             // checkedListBox1
             // 
             this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(33, 353);
+            this.checkedListBox1.Location = new System.Drawing.Point(33, 327);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(223, 94);
             this.checkedListBox1.TabIndex = 8;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(82, 470);
+            this.button2.Location = new System.Drawing.Point(12, 439);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(130, 46);
+            this.button2.Size = new System.Drawing.Size(263, 46);
             this.button2.TabIndex = 9;
             this.button2.Text = "Analyze";
             this.button2.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@ namespace BSELogETL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(287, 528);
+            this.ClientSize = new System.Drawing.Size(287, 497);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.checkedListBox1);

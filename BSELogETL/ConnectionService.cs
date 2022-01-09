@@ -33,41 +33,42 @@ namespace BSELogETL
             {
                 return true;
             }
-            
+
             try
             {
                 var con = CreateConnection();
                 con.Open();
-                
+
                 var transaction = con.BeginTransaction();
-                
+
                 var command = con.CreateCommand();
-                command.CommandText = @"INSERT INTO log_entries(ip_address, http_method, http_location, http_code, requested_at, package_size) VALUES ($ip_address, $http_method, $http_location, $http_code, $requested_at, $package_size);";
+                command.CommandText =
+                    @"INSERT INTO log_entries(ip_address, http_method, http_location, http_code, requested_at, package_size) VALUES ($ip_address, $http_method, $http_location, $http_code, $requested_at, $package_size);";
 
                 var ipAddressParameter = command.CreateParameter();
                 ipAddressParameter.ParameterName = "$ip_address";
                 command.Parameters.Add(ipAddressParameter);
-                
+
                 var httpMethodParameter = command.CreateParameter();
                 httpMethodParameter.ParameterName = "$http_method";
                 command.Parameters.Add(httpMethodParameter);
-                
+
                 var httpLocationParameter = command.CreateParameter();
                 httpLocationParameter.ParameterName = "$http_location";
                 command.Parameters.Add(httpLocationParameter);
-                
+
                 var httpCodeParameter = command.CreateParameter();
                 httpCodeParameter.ParameterName = "$http_code";
                 command.Parameters.Add(httpCodeParameter);
-                
+
                 var requestedAtParameter = command.CreateParameter();
                 requestedAtParameter.ParameterName = "$requested_at";
                 command.Parameters.Add(requestedAtParameter);
-                
+
                 var packageSizeParameter = command.CreateParameter();
                 packageSizeParameter.ParameterName = "$package_size";
                 command.Parameters.Add(packageSizeParameter);
-                
+
                 foreach (var entry in entries)
                 {
                     ipAddressParameter.Value = entry.IpAddress;
@@ -78,7 +79,7 @@ namespace BSELogETL
                     packageSizeParameter.Value = entry.PackageSize is null ? DBNull.Value : entry.PackageSize;
                     command.ExecuteNonQuery();
                 }
-                
+
                 transaction.Commit();
                 return true;
             }
@@ -114,10 +115,10 @@ namespace BSELogETL
             con.Open();
             var command = con.CreateCommand();
             command.CommandText = query;
-            
+
             var reader = command.ExecuteReader();
             var list = new List<LogEntry>();
-            
+
             while (reader.Read())
             {
                 var entry = new LogEntry
@@ -131,6 +132,31 @@ namespace BSELogETL
                 };
 
                 list.Add(entry);
+            }
+
+            reader.Close();
+            return list;
+        }
+
+        public List<Dictionary<string, string>> QueryToHttpMethodCount(string query)
+        {
+            var con = CreateConnection();
+            con.Open();
+            var command = con.CreateCommand();
+            command.CommandText = query;
+
+            var reader = command.ExecuteReader();
+            var list = new List<Dictionary<string, string>>();
+
+            while (reader.Read())
+            {
+                var dict = new Dictionary<string, string>
+                {
+                    { "HttpMethod", reader["http_method"].ToString() },
+                    { "HttpMethodCount", reader["method_count"].ToString() }
+                };
+
+                list.Add(dict);
             }
 
             reader.Close();

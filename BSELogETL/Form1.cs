@@ -118,7 +118,7 @@ namespace BSELogETL
         {
             if ((Application.OpenForms["An3_Filter"] as An3_Filter) == null)
             {
-                var filterDialog = new An3_Filter();
+                var filterDialog = new An3_Filter(_connectionService);
                 filterDialog.Show();
             }
             else
