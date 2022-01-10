@@ -187,5 +187,30 @@ namespace BSELogETL
             reader.Close();
             return list;
         }
+        
+        public List<Dictionary<string, string>> QueryToHttpCodeCount(string query)
+        {
+            var con = CreateConnection();
+            con.Open();
+            var command = con.CreateCommand();
+            command.CommandText = query;
+
+            var reader = command.ExecuteReader();
+            var list = new List<Dictionary<string, string>>();
+
+            while (reader.Read())
+            {
+                var dict = new Dictionary<string, string>
+                {
+                    { "HttpCode", reader["http_code"].ToString() },
+                    { "HttpCodeCount", reader["code_count"].ToString() }
+                };
+
+                list.Add(dict);
+            }
+
+            reader.Close();
+            return list;
+        }
     }
 }

@@ -133,7 +133,7 @@ namespace BSELogETL
         {
             if ((Application.OpenForms["An4_Filter"] as An4_Filter) == null)
             {
-                var filterDialog = new An4_Filter();
+                var filterDialog = new An4_Filter(_connectionService);
                 filterDialog.Show();
             }
             else

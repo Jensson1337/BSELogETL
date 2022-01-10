@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -54,7 +55,21 @@ namespace BSELogETL
 
             return false;
         }
-        
+
+        public static bool ValidateHttpCode(string code)
+        {
+            try
+            {
+                int converted = Convert.ToInt16(code);
+                return converted is >= 100 and < 1000;
+            }
+            catch
+            {
+                // empty catch blocks are beautiful, arent they?
+            }
+            return false;
+        }
+
         /**
          * https://stackoverflow.com/questions/2444033/get-dictionary-key-by-value
          */
@@ -69,13 +84,16 @@ namespace BSELogETL
                     break;
                 }
             }
+
             return key;
         }
-        
+
         /**
          * https://stackoverflow.com/questions/63055621/how-to-convert-camel-case-to-snake-case-with-two-capitals-next-to-each-other
          */
         public static string ToUnderscoreCase(string str)
-            => string.Concat((str ?? string.Empty).Select((x, i) => str != null && i > 0 && char.IsUpper(x) && !char.IsUpper(str[i-1]) ? $"_{x}" : x.ToString())).ToLower();
+            => string.Concat((str ?? string.Empty).Select((x, i) =>
+                    str != null && i > 0 && char.IsUpper(x) && !char.IsUpper(str[i - 1]) ? $"_{x}" : x.ToString()))
+                .ToLower();
     }
 }

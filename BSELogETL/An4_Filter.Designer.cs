@@ -43,30 +43,33 @@ namespace BSELogETL
             this.button3 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.listBox2 = new System.Windows.Forms.ListBox();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(76, 477);
+            this.button2.Location = new System.Drawing.Point(12, 485);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(130, 46);
+            this.button2.Size = new System.Drawing.Size(223, 46);
             this.button2.TabIndex = 17;
             this.button2.Text = "Analyze";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(195, 127);
+            this.button1.Location = new System.Drawing.Point(178, 137);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(57, 20);
             this.button1.TabIndex = 16;
             this.button1.Text = "Add";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(29, 151);
+            this.label1.Location = new System.Drawing.Point(12, 166);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 15;
@@ -75,14 +78,14 @@ namespace BSELogETL
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(29, 167);
+            this.listBox1.Location = new System.Drawing.Point(12, 182);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(223, 95);
             this.listBox1.TabIndex = 14;
             // 
             // checkBox2
             // 
-            this.checkBox2.Location = new System.Drawing.Point(29, 98);
+            this.checkBox2.Location = new System.Drawing.Point(12, 107);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(104, 24);
             this.checkBox2.TabIndex = 13;
@@ -91,7 +94,7 @@ namespace BSELogETL
             // 
             // checkBox1
             // 
-            this.checkBox1.Location = new System.Drawing.Point(29, 17);
+            this.checkBox1.Location = new System.Drawing.Point(12, 12);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(104, 24);
             this.checkBox1.TabIndex = 12;
@@ -100,21 +103,21 @@ namespace BSELogETL
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(29, 47);
+            this.dateTimePicker1.Location = new System.Drawing.Point(12, 42);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(223, 20);
             this.dateTimePicker1.TabIndex = 11;
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(29, 128);
+            this.textBox1.Location = new System.Drawing.Point(12, 137);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(160, 20);
             this.textBox1.TabIndex = 10;
             // 
             // checkBox3
             // 
-            this.checkBox3.Location = new System.Drawing.Point(29, 299);
+            this.checkBox3.Location = new System.Drawing.Point(12, 297);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(104, 24);
             this.checkBox3.TabIndex = 18;
@@ -123,16 +126,17 @@ namespace BSELogETL
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(195, 327);
+            this.button3.Location = new System.Drawing.Point(178, 327);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(57, 20);
             this.button3.TabIndex = 22;
             this.button3.Text = "Add";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(29, 351);
+            this.label2.Location = new System.Drawing.Point(12, 360);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(134, 13);
             this.label2.TabIndex = 21;
@@ -141,27 +145,35 @@ namespace BSELogETL
             // listBox2
             // 
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(29, 367);
+            this.listBox2.Location = new System.Drawing.Point(12, 376);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(223, 95);
             this.listBox2.TabIndex = 20;
             // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Location = new System.Drawing.Point(12, 68);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(223, 20);
+            this.dateTimePicker2.TabIndex = 23;
+            // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(29, 328);
+            this.textBox2.Location = new System.Drawing.Point(12, 328);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(160, 20);
-            this.textBox2.TabIndex = 19;
+            this.textBox2.TabIndex = 24;
             // 
             // An4_Filter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 535);
+            this.ClientSize = new System.Drawing.Size(249, 543);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -177,10 +189,13 @@ namespace BSELogETL
             this.PerformLayout();
         }
 
+        private System.Windows.Forms.TextBox textBox2;
+
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.TextBox textBox2;
 
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
