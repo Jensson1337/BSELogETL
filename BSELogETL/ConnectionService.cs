@@ -123,12 +123,12 @@ namespace BSELogETL
             {
                 var entry = new LogEntry
                 {
-                    IpAddress = reader["ip_address"].ToString(),
-                    HttpMethod = reader["http_method"].ToString(),
-                    HttpCode = reader["http_code"].ToString(),
-                    HttpLocation = reader["http_location"].ToString(),
-                    RequestedAt = reader["requested_at"].ToString(),
-                    PackageSize = reader["package_size"].ToString()
+                    IpAddress = Helper.GetReaderValue(reader, "ip_address"),
+                    HttpMethod = Helper.GetReaderValue(reader, "http_method"),
+                    HttpCode = Helper.GetReaderValue(reader, "http_code"),
+                    HttpLocation = Helper.GetReaderValue(reader, "http_location"),
+                    RequestedAt = Helper.GetReaderValue(reader, "requested_at"),
+                    PackageSize = Helper.GetReaderValue(reader, "package_size"),
                 };
 
                 list.Add(entry);

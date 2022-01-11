@@ -36,65 +36,23 @@ namespace BSELogETL
         private void button2_Click(object sender, EventArgs e)
         {
             var whereString = "";
-            AppendWhereIpAddresses(ref whereString);
-            AppendWhereInDateRange(ref whereString);
-
+            
+            if (checkBox1.Checked)
+            {
+                QueryHelper.AppendWhereInDateRange(ref whereString, dateTimePicker1.Value, dateTimePicker2.Value);
+            }
+            
+            if (checkBox2.Checked)
+            {
+                QueryHelper.AppendWhereIpAddresses(ref whereString, listBox1.Items);    
+            }
+            
             var query = "SELECT ip_address, COUNT(*) as ip_count FROM log_entries " + whereString + " GROUP BY ip_address;";
 
             var results = _connectionService.QueryToIpAddressCount(query);
 
             var ipAddressCountDataGrid = new IpAddressCountDataGrid(results);
             ipAddressCountDataGrid.Show();
-        }
-        
-        private void AppendWhereIpAddresses(ref string whereString)
-        {
-            if (!checkBox2.Checked || listBox1.Items.Count == 0)
-            {
-                return;
-            }
-
-            var begin = "WHERE";
-            if (whereString.Length > 0)
-            {
-                begin = "AND";
-            }
-
-            whereString += begin + " ip_address IN (";
-
-            bool isFirst = true;
-            foreach (var item in listBox1.Items)
-            {
-                if (isFirst)
-                {
-                    isFirst = false;
-                }
-                else
-                {
-                    whereString += ", ";
-                }
-
-                whereString += "\"" + item + "\"";
-            }
-
-            whereString += ") ";
-        }
-
-        private void AppendWhereInDateRange(ref string whereString)
-        {
-            if (!checkBox1.Checked)
-            {
-                return;
-            }
-
-            var begin = "WHERE";
-            if (whereString.Length > 0)
-            {
-                begin = "AND";
-            }
-
-            whereString += begin + " requested_at > \"" + dateTimePicker1.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                           + "\" AND requested_at < \"" + dateTimePicker2.Value.ToString("yyyy-MM-dd HH:mm:ss") + "\"";
         }
     }
 }

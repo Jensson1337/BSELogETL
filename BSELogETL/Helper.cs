@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Data.Sqlite;
 
 namespace BSELogETL
 {
@@ -95,5 +96,17 @@ namespace BSELogETL
             => string.Concat((str ?? string.Empty).Select((x, i) =>
                     str != null && i > 0 && char.IsUpper(x) && !char.IsUpper(str[i - 1]) ? $"_{x}" : x.ToString()))
                 .ToLower();
+
+        public static string GetReaderValue(SqliteDataReader reader, string attribute)
+        {
+            try
+            {
+                return reader[attribute].ToString();
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

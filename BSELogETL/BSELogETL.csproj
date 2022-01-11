@@ -154,6 +154,7 @@
     <Compile Include="LogEntry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryHelper.cs" />
     <EmbeddedResource Include="An1_Filter.resx">
       <DependentUpon>An1_Filter.cs</DependentUpon>
     </EmbeddedResource>

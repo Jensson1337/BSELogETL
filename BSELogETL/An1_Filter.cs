@@ -46,10 +46,20 @@ namespace BSELogETL
             var selectString = GetSelectString();
 
             var whereString = string.Empty;
-            AppendWhereIpAddresses(ref whereString);
-            AppendWhereInDateRange(ref whereString);
+            
+            if (checkBox1.Checked)
+            {
+                QueryHelper.AppendWhereInDateRange(ref whereString, dateTimePicker1.Value, dateTimePicker2.Value);
+            }
+            
+            if (checkBox2.Checked)
+            {
+                QueryHelper.AppendWhereIpAddresses(ref whereString, listBox1.Items);    
+            }
 
             var query = selectString + " " + whereString + ";";
+
+            MessageBox.Show(query);
 
             var entries = _connectionService.QueryToEntries(query);
 
@@ -60,67 +70,23 @@ namespace BSELogETL
             entryDialog.Show();
         }
 
-
-        private void AppendWhereIpAddresses(ref string whereString)
-        {
-            if (!checkBox2.Checked || listBox1.Items.Count == 0)
-            {
-                return;
-            }
-
-            var begin = "WHERE";
-            if (whereString.Length > 0)
-            {
-                begin = "AND";
-            }
-
-            whereString += begin + " ip_address IN (";
-
-            bool isFirst = true;
-            foreach (var item in listBox1.Items)
-            {
-                if (isFirst)
-                {
-                    isFirst = false;
-                }
-                else
-                {
-                    whereString += ", ";
-                }
-
-                whereString += "\"" + item + "\"";
-            }
-
-            whereString += ") ";
-        }
-
-        private void AppendWhereInDateRange(ref string whereString)
-        {
-            if (!checkBox1.Checked)
-            {
-                return;
-            }
-
-            var begin = "WHERE";
-            if (whereString.Length > 0)
-            {
-                begin = "AND";
-            }
-
-            whereString += begin + " requested_at > \"" + dateTimePicker1.Value.ToString("yyyy-MM-dd HH:mm:ss")
-                           + "\" AND requested_at < \"" + dateTimePicker2.Value.ToString("yyyy-MM-dd HH:mm:ss") + "\"";
-        }
-
-
         private string GetSelectString()
         {
             var selectString = "SELECT ";
             if (checkBox3.Checked)
             {
-                selectString = "(";
-
                 bool isFirst = true;
-                foreach (var attribute in GetSelectedAttributes())
+                var selected = GetSelectedAttributes();
+
+                if (selected.Count == 0)
+                {
+                    selected = new List<string>()
+                    {
+                        "*"
+                    };
+                }
+                
+                foreach (var attribute in selected)
                 {
                     if (isFirst)
                     {
@@ -133,8 +99,6 @@ namespace BSELogETL
 
                     selectString += Helper.ToUnderscoreCase(attribute);
                 }
-
-                selectString += ")";
             }
             else
             {
