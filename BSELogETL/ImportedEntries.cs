@@ -5,10 +5,10 @@ namespace BSELogETL
 {
     public partial class ImportedEntries : Form
     {
-        public ImportedEntries(List<LogEntry> entries, List<string> attributes)
+        public ImportedEntries(List<LogEntry> entries, List<string> attributes, string count)
         {
             InitializeComponent();
-            label1.Text = "Loaded entries: " + entries.Count;
+            label1.Text = "Loaded entries: " + count;
             
             var availableAttributes = Helper.GetAvailableAttributes();
             dataGridView1.ColumnCount = attributes.Count;

@@ -212,5 +212,24 @@ namespace BSELogETL
             reader.Close();
             return list;
         }
+        
+        public string QueryToCount(string query)
+        {
+            var con = CreateConnection();
+            con.Open();
+            var command = con.CreateCommand();
+            command.CommandText = query;
+
+            var reader = command.ExecuteReader();
+            string count = string.Empty;
+            
+            while (reader.Read())
+            {
+                count = reader["count"].ToString();
+            }
+
+            reader.Close();
+            return count;
+        }
     }
 }

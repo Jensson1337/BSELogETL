@@ -58,14 +58,16 @@ namespace BSELogETL
             }
 
             var query = selectString + " " + whereString + ";";
-
-            MessageBox.Show(query);
-
             var entries = _connectionService.QueryToEntries(query);
 
+            query = "SELECT COUNT(*) AS count FROM log_entries " + whereString + ";";
+            var count = _connectionService.QueryToCount(query);
+
             var attributes = GetSelectedAttributes();
-            var entryDialog = new ImportedEntries(entries,
-                attributes.Count > 0 ? attributes : Helper.GetAvailableAttributes().Keys.ToList()
+            var entryDialog = new ImportedEntries(
+                entries,
+                attributes.Count > 0 ? attributes : Helper.GetAvailableAttributes().Keys.ToList(),
+                count
             );
             entryDialog.Show();
         }
